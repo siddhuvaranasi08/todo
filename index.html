@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster Pro - Advanced To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button id="mobileMenuToggle" class="mobile-menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                    <rect width="36" height="36" rx="8" fill="url(#gradient)"/>
+                    <path d="M10 18L16 24L26 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="36" y2="36">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="logo-text">
+                    <h2>TaskMaster</h2>
+                    <span>Pro</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Section -->
+        <div class="user-profile">
+            <div class="user-avatar">
+                <span class="avatar-text">U</span>
+            </div>
+            <div class="user-info">
+                <h3 id="userName">User</h3>
+                <p id="userEmail">user@example.com</p>
+            </div>
+            <button class="edit-profile-btn" id="editProfileBtn" title="Edit Profile">✏️</button>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="totalTasksStat">0</span>
+                    <span class="stat-label">Total Tasks</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="completedStat">0</span>
+                    <span class="stat-label">Completed</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="pendingStat">0</span>
+                    <span class="stat-label">Pending</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="sidebar-nav">
+            <h4 class="nav-section-title">VIEWS</h4>
+            <ul class="nav-list">
+                <li class="nav-item active" data-view="all">
+                    <span class="nav-icon">📋</span>
+                    <span class="nav-text">All Tasks</span>
+                    <span class="nav-count" id="allCount">0</span>
+                </li>
+                <li class="nav-item" data-view="today">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-text">Today</span>
+                    <span class="nav-count" id="todayCount">0</span>
+                </li>
+                <li class="nav-item" data-view="upcoming">
+                    <span class="nav-icon">🗓️</span>
+                    <span class="nav-text">Upcoming</span>
+                    <span class="nav-count" id="upcomingCount">0</span>
+                </li>
+                <li class="nav-item" data-view="completed">
+                    <span class="nav-icon">✔️</span>
+                    <span class="nav-text">Completed</span>
+                    <span class="nav-count" id="completedCount">0</span>
+                </li>
+                <li class="nav-item" data-view="incomplete">
+                    <span class="nav-icon">⭕</span>
+                    <span class="nav-text">Incomplete</span>
+                    <span class="nav-count" id="incompleteCount">0</span>
+                </li>
+                <li class="nav-item" data-view="overdue">
+                    <span class="nav-icon">⚠️</span>
+                    <span class="nav-text">Overdue</span>
+                    <span class="nav-count" id="overdueCount">0</span>
+                </li>
+            </ul>
+
+            <h4 class="nav-section-title">PRIORITY</h4>
+            <ul class="nav-list">
+                <li class="nav-item" data-view="urgent">
+                    <span class="nav-icon priority-urgent">🔴</span>
+                    <span class="nav-text">Urgent</span>
+                    <span class="nav-count" id="urgentCount">0</span>
+                </li>
+                <li class="nav-item" data-view="high">
+                    <span class="nav-icon priority-high">🟠</span>
+                    <span class="nav-text">High Priority</span>
+                    <span class="nav-count" id="highCount">0</span>
+                </li>
+                <li class="nav-item" data-view="medium">
+                    <span class="nav-icon priority-medium">🟡</span>
+                    <span class="nav-text">Medium Priority</span>
+                    <span class="nav-count" id="mediumCount">0</span>
+                </li>
+                <li class="nav-item" data-view="low">
+                    <span class="nav-icon priority-low">🟢</span>
+                    <span class="nav-text">Low Priority</span>
+                    <span class="nav-count" id="lowCount">0</span>
+                </li>
+            </ul>
+
+            <h4 class="nav-section-title">CATEGORIES</h4>
+            <ul class="nav-list">
+                <li class="nav-item" data-view="category-personal">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Personal</span>
+                    <span class="nav-count" id="personalCount">0</span>
+                </li>
+                <li class="nav-item" data-view="category-work">
+                    <span class="nav-icon">💼</span>
+                    <span class="nav-text">Work</span>
+                    <span class="nav-count" id="workCount">0</span>
+                </li>
+                <li class="nav-item" data-view="category-shopping">
+                    <span class="nav-icon">🛒</span>
+                    <span class="nav-text">Shopping</span>
+                    <span class="nav-count" id="shoppingCount">0</span>
+                </li>
+                <li class="nav-item" data-view="category-health">
+                    <span class="nav-icon">❤️</span>
+                    <span class="nav-text">Health</span>
+                    <span class="nav-count" id="healthCount">0</span>
+                </li>
+                <li class="nav-item" data-view="category-finance">
+                    <span class="nav-icon">💰</span>
+                    <span class="nav-text">Finance</span>
+                    <span class="nav-count" id="financeCount">0</span>
+                </li>
+                <li class="nav-item" data-view="category-other">
+                    <span class="nav-icon">📌</span>
+                    <span class="nav-text">Other</span>
+                    <span class="nav-count" id="otherCount">0</span>
+                </li>
+            </ul>
+
+            <h4 class="nav-section-title">MORE</h4>
+            <ul class="nav-list">
+                <li class="nav-item" data-view="statistics">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Statistics</span>
+                </li>
+                <li class="nav-item" data-view="settings">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Settings</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+            <button class="sidebar-btn" id="exportBtn" title="Export Tasks">
+                <span>📥</span> Export
+            </button>
+            <button class="sidebar-btn" id="importBtn" title="Import Tasks">
+                <span>📤</span> Import
+            </button>
+            <input type="file" id="importFile" accept=".json" style="display: none;">
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <h1 id="viewTitle">All Tasks</h1>
+                <p id="viewSubtitle" class="view-subtitle">Manage all your tasks in one place</p>
+            </div>
+            <div class="header-right">
+                <button class="icon-btn" id="themeToggle" title="Toggle Dark Mode">
+                    <span id="themeIcon">🌙</span>
+                </button>
+                <button class="icon-btn" id="notificationsBtn" title="Notifications">
+                    <span>🔔</span>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                </button>
+                <button class="icon-btn" id="refreshBtn" title="Refresh">
+                    <span>🔄</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Search and Filter Bar -->
+        <div class="search-filter-bar">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search tasks by title, description, or tags..."
+                    aria-label="Search tasks"
+                >
+                <button id="clearSearch" class="clear-search-btn" style="display: none;">✕</button>
+            </div>
+            <div class="filter-controls">
+                <select id="sortSelect" class="filter-select">
+                    <option value="dateDesc">Newest First</option>
+                    <option value="dateAsc">Oldest First</option>
+                    <option value="priority">Priority</option>
+                    <option value="dueDate">Due Date</option>
+                    <option value="alphabetical">A-Z</option>
+                    <option value="category">Category</option>
+                </select>
+                <button class="icon-btn" id="viewModeBtn" title="Toggle View Mode">
+                    <span id="viewModeIcon">📋</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Add Task Section -->
+        <div class="add-task-section">
+            <div class="task-input-wrapper">
+                <input 
+                    type="text" 
+                    id="taskInput" 
+                    placeholder="What needs to be done? (Press Enter or click Add)" 
+                    maxlength="200"
+                    aria-label="Task input"
+                >
+                <button id="addTaskBtn" class="add-task-btn">
+                    <span class="btn-icon">+</span>
+                    <span class="btn-text">Add Task</span>
+                </button>
+            </div>
+            
+            <!-- Advanced Options Toggle -->
+            <button class="advanced-toggle-btn" id="advancedToggleBtn">
+                <span id="advancedToggleIcon">▼</span>
+                <span>Advanced Options</span>
+            </button>
+
+            <!-- Advanced Options Panel -->
+            <div id="advancedOptions" class="advanced-options-panel">
+                <div class="options-grid">
+                    <div class="option-group">
+                        <label for="prioritySelect">
+                            <span class="option-icon">🎯</span>
+                            Priority
+                        </label>
+                        <select id="prioritySelect" class="option-select">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="categorySelect">
+                            <span class="option-icon">📁</span>
+                            Category
+                        </label>
+                        <select id="categorySelect" class="option-select">
+                            <option value="personal">Personal</option>
+                            <option value="work">Work</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="health">Health</option>
+                            <option value="finance">Finance</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="dueDateInput">
+                            <span class="option-icon">📅</span>
+                            Due Date
+                        </label>
+                        <input type="date" id="dueDateInput" class="option-input">
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="tagsInput">
+                            <span class="option-icon">🏷️</span>
+                            Tags
+                        </label>
+                        <input 
+                            type="text" 
+                            id="tagsInput" 
+                            class="option-input" 
+                            placeholder="e.g., urgent, review"
+                        >
+                    </div>
+                </div>
+                
+                <div class="option-group full-width">
+                    <label for="descriptionInput">
+                        <span class="option-icon">📝</span>
+                        Description (Optional)
+                    </label>
+                    <textarea 
+                        id="descriptionInput" 
+                        class="option-textarea" 
+                        placeholder="Add more details about this task..."
+                        maxlength="500"
+                        rows="3"
+                    ></textarea>
+                </div>
+            </div>
+
+            <div id="errorMessage" class="error-message" role="alert"></div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <div class="progress-info">
+                <span class="progress-label">Overall Progress</span>
+                <span class="progress-percentage" id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-stats">
+                <span><strong id="completedTasksCount">0</strong> of <strong id="totalTasksCount">0</strong> tasks completed</span>
+            </div>
+        </div>
+
+        <!-- Tasks Container -->
+        <div class="tasks-container" id="tasksContainer">
+            <!-- Task List -->
+            <ul id="taskList" class="task-list">
+                <!-- Tasks will be dynamically added here -->
+            </ul>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📝</div>
+                <h3>No tasks found</h3>
+                <p id="emptyStateMessage">Add your first task to get started!</p>
+            </div>
+        </div>
+
+        <!-- Statistics View (Hidden by default) -->
+        <div class="statistics-view" id="statisticsView" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-box-header">
+                        <h3>Task Overview</h3>
+                        <span class="stat-icon-large">📊</span>
+                    </div>
+                    <div class="stat-box-content">
+                        <div class="stat-row">
+                            <span>Total Tasks:</span>
+                            <strong id="statTotalTasks">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Completed:</span>
+                            <strong id="statCompleted">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Incomplete:</span>
+                            <strong id="statIncomplete">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Completion Rate:</span>
+                            <strong id="statCompletionRate">0%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-box-header">
+                        <h3>Priority Breakdown</h3>
+                        <span class="stat-icon-large">🎯</span>
+                    </div>
+                    <div class="stat-box-content">
+                        <div class="stat-row">
+                            <span>🔴 Urgent:</span>
+                            <strong id="statUrgent">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>🟠 High:</span>
+                            <strong id="statHigh">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>🟡 Medium:</span>
+                            <strong id="statMedium">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>🟢 Low:</span>
+                            <strong id="statLow">0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-box-header">
+                        <h3>Category Distribution</h3>
+                        <span class="stat-icon-large">📁</span>
+                    </div>
+                    <div class="stat-box-content">
+                        <div class="stat-row">
+                            <span>👤 Personal:</span>
+                            <strong id="statPersonal">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>💼 Work:</span>
+                            <strong id="statWork">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>🛒 Shopping:</span>
+                            <strong id="statShopping">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>❤️ Health:</span>
+                            <strong id="statHealth">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>💰 Finance:</span>
+                            <strong id="statFinance">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>📌 Other:</span>
+                            <strong id="statOther">0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-box">
+                    <div class="stat-box-header">
+                        <h3>Time Analysis</h3>
+                        <span class="stat-icon-large">⏰</span>
+                    </div>
+                    <div class="stat-box-content">
+                        <div class="stat-row">
+                            <span>Today's Tasks:</span>
+                            <strong id="statToday">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Upcoming:</span>
+                            <strong id="statUpcoming">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Overdue:</span>
+                            <strong id="statOverdue">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>No Due Date:</span>
+                            <strong id="statNoDueDate">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-section">
+                <h3>Productivity Chart</h3>
+                <div class="chart-container">
+                    <canvas id="productivityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings View (Hidden by default) -->
+        <div class="settings-view" id="settingsView" style="display: none;">
+            <div class="settings-section">
+                <h3>⚙️ Application Settings</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Dark Mode</label>
+                        <p>Switch between light and dark theme</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Notifications</label>
+                        <p>Enable task reminders and notifications</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="notificationsToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Auto-save</label>
+                        <p>Automatically save changes to local storage</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoSaveToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Confirm Delete</label>
+                        <p>Ask for confirmation before deleting tasks</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="confirmDeleteToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Sound Effects</label>
+                        <p>Play sounds for task completion</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="soundToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>💾 Data Management</h3>
+                
+                <button class="settings-btn" id="clearAllBtn">
+                    <span>🗑️</span> Clear All Tasks
+                </button>
+                <button class="settings-btn" id="clearCompletedBtn">
+                    <span>✅</span> Clear Completed Tasks
+                </button>
+                <button class="settings-btn" id="resetSettingsBtn">
+                    <span>🔄</span> Reset Settings
+                </button>
+            </div>
+
+            <div class="settings-section">
+                <h3>ℹ️ About</h3>
+                <p><strong>TaskMaster Pro</strong> v2.0</p>
+                <p>An advanced task management application</p>
+                <p>Built with HTML, CSS, and JavaScript</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="modal-close" id="closeProfileModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="profileName">Name</label>
+                    <input type="text" id="profileName" class="form-input" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="profileEmail">Email</label>
+                    <input type="email" id="profileEmail" class="form-input" placeholder="Enter your email">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelProfileBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveProfileBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Details Modal -->
+    <div class="modal" id="taskDetailsModal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Task Details</h3>
+                <button class="modal-close" id="closeTaskModal">✕</button>
+            </div>
+            <div class="modal-body" id="taskDetailsBody">
+                <!-- Task details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
